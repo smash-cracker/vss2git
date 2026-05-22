@@ -527,12 +527,14 @@ namespace Hpdi.Vss2Git
                 logger.WriteLine("Updating git index from HEAD");
                 using (perfTracker?.Start("Git:reset"))
                     GitExec("reset HEAD");
+                logger.WriteLine("Completed: git reset HEAD");
 
                 // Check for missing files
                 var deletedFiles = new List<string>();
                 string stdout, stderr;
                 var startInfo = GetStartInfo("diff --name-only HEAD");
                 int exitCode = Execute(startInfo, out stdout, out stderr);
+                logger.WriteLine("Completed: git diff --name-only HEAD (exit code {0})", exitCode);
                 if (exitCode == 0 && !string.IsNullOrWhiteSpace(stdout))
                 {
                     foreach (var line in stdout.Split('\n'))
@@ -544,6 +546,7 @@ namespace Hpdi.Vss2Git
                         }
                     }
                 }
+                logger.WriteLine("Missing-file check complete: {0} file(s)", deletedFiles.Count);
 
                 return deletedFiles;
             }

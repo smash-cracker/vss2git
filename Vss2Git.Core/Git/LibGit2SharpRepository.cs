@@ -445,6 +445,7 @@ namespace Hpdi.Vss2Git
 
                 // Reset index to HEAD without touching working tree
                 repo.Reset(ResetMode.Mixed, repo.Head.Tip);
+                logger.WriteLine("Completed: LibGit2Sharp reset index from HEAD");
 
                 // Check for files in HEAD that are missing from working tree
                 var deletedFiles = new List<string>();
@@ -461,6 +462,7 @@ namespace Hpdi.Vss2Git
                         deletedFiles.Add(item.FilePath);
                     }
                 }
+                logger.WriteLine("Missing-file check complete: {0} file(s)", deletedFiles.Count);
 
                 return deletedFiles;
             }

@@ -762,13 +762,16 @@ namespace Hpdi.Vss2Git
                 // Now HEAD is up to date - create the index
                 logger.WriteLine("Creating git index from HEAD");
                 RunGitCommand("reset HEAD");
+                logger.WriteLine("Completed: git reset HEAD");
 
                 // Remove untracked files/dirs left by Directory.Move on empty projects
                 RunGitCommand("clean -fd");
+                logger.WriteLine("Completed: git clean -fd");
 
                 // Check for files in HEAD that are missing from working tree
                 var deletedFiles = new List<string>();
                 var output = RunGitCommandOutput("diff --name-only HEAD");
+                logger.WriteLine("Completed: git diff --name-only HEAD");
                 if (!string.IsNullOrWhiteSpace(output))
                 {
                     foreach (var line in output.Split('\n'))
@@ -780,6 +783,7 @@ namespace Hpdi.Vss2Git
                         }
                     }
                 }
+                logger.WriteLine("Missing-file check complete: {0} file(s)", deletedFiles.Count);
 
                 return deletedFiles;
             }
