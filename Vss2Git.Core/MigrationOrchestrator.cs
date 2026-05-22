@@ -154,7 +154,6 @@ namespace Hpdi.Vss2Git
                 {
                     logger.Dispose();
                     logger = Logger.Null;
-                    statusReporter.Stop();
                 };
                 queueOwnsLogger = true;
 
